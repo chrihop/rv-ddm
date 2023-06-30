@@ -10,7 +10,10 @@ link_libraries(
 )
 
 # -- main --
-
+add_executable(
+    main-sml-dynamic-dispatch
+    main-sml-dynamic-dispatch.cc
+)
 # --
 
 # -- unit test --

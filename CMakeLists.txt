@@ -6,12 +6,19 @@ set (CMAKE_CXX_STANDARD 20)
 
 include(FetchContent)
 
+#FetchContent_Declare(
+#    boost_sml
+#    URL "https://github.com/boost-ext/sml/archive/refs/tags/v1.1.8.tar.gz"
+#    URL_HASH SHA256=d2626b2fd249fa0788ca364a2f8dcb4762dd72195f86d43370e4cad4c02262c5
+#    DOWNLOAD_EXTRACT_TIMESTAMP true
+#)
+
 FetchContent_Declare(
     boost_sml
-    URL "https://github.com/boost-ext/sml/archive/refs/tags/v1.1.8.tar.gz"
-    URL_HASH SHA256=d2626b2fd249fa0788ca364a2f8dcb4762dd72195f86d43370e4cad4c02262c5
-    DOWNLOAD_EXTRACT_TIMESTAMP true
+    GIT_REPOSITORY https://github.com/boost-ext/sml.git
+    GIT_TAG master
 )
+
 
 message(STATUS "Fetching Boost.SML ...")
 FetchContent_MakeAvailable(boost_sml)
@@ -23,6 +30,8 @@ set (RVDDM_INC_DIRS
     ${RVDDM_TOP_DIR}/inc
     ${boost_sml_SOURCE_DIR}/include
     )
+
+add_compile_options(-ftrack-macro-expansion=0 -fno-diagnostics-show-caret)
 
 # -- src --
 add_subdirectory(src)

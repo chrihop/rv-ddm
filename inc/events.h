@@ -41,8 +41,26 @@ struct event_t
 
 typedef std::shared_ptr<event_t> event_ptr_t;
 
+enum device_event_type_t
+{
+    DEVICE_EVENT_TYPE_BEGIN = 0,
+    INITIAL_READ,
+    INITIAL_PROGRAM,
+    INITIAL_ERASE,
+    SET_ADDRESS,
+    DO_TRANSFER,
+    DO_READ,
+    DO_PROGRAM,
+    DO_ERASE,
+    END_TRANSFER,
+    TIME_WAIT,
+    MAX_DEVICE_EVENT_TYPES
+};
+
 struct time_wait_event_t : public event_t
 {
+    static constexpr int id = device_event_type_t::TIME_WAIT;
+
     std::uint32_t ms {};
     explicit time_wait_event_t(std::uint32_t ms)
         : ms { ms }
@@ -62,12 +80,16 @@ struct _pointer_specify_event_t : public event_t
 
 struct initial_read_event_t : public _pointer_specify_event_t
 {
+    static constexpr int id = device_event_type_t::INITIAL_READ;
+
     using _pointer_specify_event_t::_pointer_specify_event_t;
     virtual std::string to_string() const override;
 };
 
 struct initial_program_event_t : public _pointer_specify_event_t
 {
+    static constexpr int id = device_event_type_t::INITIAL_PROGRAM;
+
     using _pointer_specify_event_t::_pointer_specify_event_t;
     virtual std::string to_string() const override;
 };
@@ -80,11 +102,15 @@ struct _empty_body_event_t : public event_t
 
 struct initial_erase_event_t : public _empty_body_event_t
 {
+    static constexpr int id = device_event_type_t::INITIAL_ERASE;
+
     virtual std::string name() const override { return "INITIAL_ERASE"; }
 };
 
 struct set_address_event_t : public event_t
 {
+    static constexpr int id = device_event_type_t::SET_ADDRESS;
+
     enum class address_type_t
     {
         Block,
@@ -105,26 +131,36 @@ using address_type_t = set_address_event_t::address_type_t;
 
 struct do_read_event_t : public _empty_body_event_t
 {
+    static constexpr int id = device_event_type_t::DO_READ;
+
     virtual std::string name() const override { return "DO_READ"; }
 };
 
 struct do_program_event_t : public _empty_body_event_t
 {
+    static constexpr int id = device_event_type_t::DO_PROGRAM;
+
     virtual std::string name() const override { return "DO_PROGRAM"; }
 };
 
 struct do_erase_event_t : public _empty_body_event_t
 {
+    static constexpr int id = device_event_type_t::DO_ERASE;
+
     virtual std::string name() const override { return "DO_ERASE"; }
 };
 
 struct do_transfer_event_t : public _empty_body_event_t
 {
+    static constexpr int id = device_event_type_t::DO_TRANSFER;
+
     virtual std::string name() const override { return "DO_TRANSFER"; }
 };
 
 struct end_transfer_event_t : public _empty_body_event_t
 {
+    static constexpr int id = device_event_type_t::END_TRANSFER;
+
     virtual std::string name() const override { return "END_TRANSFER"; }
 };
 
